@@ -1,0 +1,9 @@
+[kafka]
+brokers="kafka:9111"
+ssl="true"
+username=""
+password=""
+
+[redis]
+url="redis:9222"
+password=""

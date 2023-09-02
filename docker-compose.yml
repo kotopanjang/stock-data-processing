@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+  clientsvc:
+    container_name: clientsvc
+    build: 
+      context: .
+      dockerfile: clientsvc/clientsvc.Dockerfile
+    ports:
+      - 9999:9999
+    restart: on-failure
+    depends_on:
+      - zookeeper
+      - kafka
+      - redis
+    networks:
+      - local
+      
+  dataprocessorengine:
+    container_name: dataprocessorengine
+    build: 
+      context: .
+      dockerfile: dataprocessorengine/dataprocessorengine.Dockerfile
+    ports:
+      - 9191:9191
+    restart: on-failure
+    depends_on:
+      - zookeeper
+      - kafka
+      - redis
+    networks:
+      - local
+  
+  fileprocessorengine:
+    container_name: fileprocessorengine
+    build: 
+      context: .
+      dockerfile: fileprocessorengine/fileprocessorengine.Dockerfile
+    ports:
+      - 9292:9292
+    restart: on-failure
+    depends_on:
+      - zookeeper
+      - kafka
+      - redis
+    networks:
+      - local
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181"
+    networks:
+      - local
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9094:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://:9092,OUTSIDE://127.0.0.1:9094
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9092,OUTSIDE://127.0.0.1:9094
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    networks:
+      - local
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - '6379:6379'
+    networks:
+      - local
+
+networks:
+  local:
+    driver: bridge

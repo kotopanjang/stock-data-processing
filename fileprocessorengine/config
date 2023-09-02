@@ -1,0 +1,13 @@
+[app]
+enableMoveFile="false"
+
+[file]
+raw="subsetdata/raw/"
+success="subsetdata/done/success"
+fail="subsetdata/done/fail"
+
+[kafka]
+brokers="kafka:9092"
+ssl="true"
+username=""
+password=""

@@ -1,0 +1,6 @@
+[api]
+port="9999"
+
+[redis]
+url="redis:9222"
+password=""

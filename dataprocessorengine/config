@@ -1,5 +1,5 @@
 [kafka]
-brokers="kafka:9099"
+brokers="kafka:9094"
 ssl="false"
 username=""
 password=""

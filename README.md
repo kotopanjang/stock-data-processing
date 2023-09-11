@@ -1,8 +1,7 @@
 # Stock Data Processing
 ## Introduction
-Stock data processing is my first old project that have been burried for about 2 years.
-This project is for processing stock data from json file and store to database.
-Currently I am using Redis for storing the calculation data.
+Stock data processing is for processing stock data from json file and store to database.
+Currently I am using Kafka as message broker to communate between engine and Redis for storing the calculated data.
 
 ## What this project doing?
 It will making a small app contain engine and services
